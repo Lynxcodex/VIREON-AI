@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VIREON AI - Authentication</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="auth.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+<nav class="navbar">
+    <div class="logo"><i class="fa-solid fa-wand-magic-sparkles"></i> VIREON AI</div>
+</nav>
+
+<div class="auth-container">
+    <!-- Login Page -->
+    <div id="login-page" class="auth-box">
+        <h2>Sign In to VIREON AI</h2>
+        <p>Enter your credentials to continue</p>
+        <form id="login-form" class="auth-form">
+            <input type="email" id="loginEmail" placeholder="Email" required>
+            <input type="password" id="loginPassword" placeholder="Password" required>
+            <button type="submit" class="auth-button primary">Sign In</button>
+        </form>
+        <p class="auth-footer">
+            Don't have an account? 
+            <a href="#" data-page="signup">Sign Up</a>
+        </p>
+    </div>
+
+    <!-- Sign Up Page -->
+    <div id="signup-page" class="auth-box hidden">
+        <h2>Create Your Account</h2>
+        <p>Register with your email and set a password</p>
+        <form id="signup-form" class="auth-form">
+            <input type="email" id="signupEmail" placeholder="Email" required>
+            <input type="password" id="signupPassword" placeholder="Password" required>
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required 
+                   oninput="this.setCustomValidity(this.value !== signupPassword.value ? 'Passwords do not match.' : '')">
+            <button type="submit" class="auth-button primary">Sign Up</button>
+        </form>
+        <p class="auth-footer">
+            Already have an account? 
+            <a href="#" data-page="login">Sign In</a>
+        </p>
+    </div>
+</div>
+
+<!-- Loader Overlay -->
+<div id="loader" class="hidden"> 
+  <div class="spinner"></div>
+</div>
+
+<div id="notification-container" aria-live="polite"></div>
+
+<script>
+// Toggle between Login and Sign Up
+document.addEventListener('DOMContentLoaded', () => {
+  const loginBox = document.getElementById('login-page');
+  const signupBox = document.getElementById('signup-page');
+  document.querySelectorAll('[data-page]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      if (link.getAttribute('data-page') === 'signup') {
+        loginBox.classList.add('hidden');
+        signupBox.classList.remove('hidden');
+      } else {
+        signupBox.classList.add('hidden');
+        loginBox.classList.remove('hidden');
+      }
+    });
+  });
+
+  // Show loader on form submission
+  const loader = document.getElementById('loader');
+  document.querySelectorAll('.auth-form').forEach(form => {
+    form.addEventListener('submit', () => {
+      loader.classList.remove('hidden');
+    });
+  });
+});
+</script>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="auth.js"></script>
+</body>
+</html>
